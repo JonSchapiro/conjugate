@@ -12,7 +12,8 @@ class Search extends Component {
         translationSearchTerm: '',
         conjugation: {},
         translation: {},
-        searchInProgress: false
+        searchInProgress: false,
+        validSearch: 'validSearch'
     };
 
     this.conjugate = _.throttle(this.conjugate.bind(this), THROTTLE_TIME);
@@ -34,19 +35,20 @@ class Search extends Component {
       })
       .then(data => {        
         if (data === null || data.tenses.length === 0) {
+          this.setState({ conjugation: data, searchInProgress: false, validSearch: 'invalidSearch' })
           return;
         }
 
-        this.setState({ conjugation: data, searchInProgress: false })
-        this.props.history.push({
-          pathname: '/results',
-          search: '',
-          state: { data: data }
-        })
+          this.setState({ conjugation: data, searchInProgress: false })
+          this.props.history.push({
+            pathname: '/results',
+            search: '',
+            state: { data: data }
+          })
       })
       .catch((error) => {
         console.error('error: ', error);
-        this.setState({ searchInProgress: false })
+        this.setState({ searchInProgress: false, validSearch: 'invalidSearch' })
       });
   }
 
@@ -59,7 +61,7 @@ class Search extends Component {
       <div className="App">
         <div>
             Conjugate:
-            <input placeholder="conjugate" onChange={this.conjugate} ref={input => this.conjValue = input}/>
+            <input class={this.state.validSearch} placeholder="conjugate" onChange={this.conjugate} ref={input => this.conjValue = input}/>
         </div>
       </div>
     );

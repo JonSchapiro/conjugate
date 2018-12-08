@@ -1,5 +1,4 @@
 body {
-  background-color: #282828;
 }
 
 .App {
@@ -117,14 +116,13 @@ td {
 }
 
 td:not(:first-child) {
-  border-bottom: 1px solid #555;
   line-height: 40px;
 }
 
 th, td {
-  font-size: 13px;
+  font-size: 20px;
   min-width: 45px;
-  width: 25%;
+  width: 10%;
 }
 
 .pagination button {
@@ -134,4 +132,16 @@ th, td {
 
 .pagination button:hover {
   color: white;
+}
+
+.conjugation{
+  width:100%
+}
+
+.validSearch{
+  border-color: black;
+}
+
+.invalidSearch{
+  border-color: red;
 }

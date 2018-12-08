@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import _ from 'lodash';
 
 const TENSE_MAP = {
@@ -24,7 +24,7 @@ const TENSE_NAME = {
   'presentperfect': 'Present Perfect',
   'pastperfectcompound': 'Past Perfect Compound',
   'pastconditional': 'Past Conditional',
-  'presentsubjunctive' : 'Present Subjunctive',
+  'presentsubjunctive': 'Present Subjunctive',
   'futuresubjunctive': 'Future Subjunctive',
   'futureperfectsubjunctive': 'Future Perfect Subbjunctive',
   'imperfectsubjunctive': 'Imperfect Subjunctive',
@@ -32,7 +32,27 @@ const TENSE_NAME = {
   'pastperfectsubjunctive': 'Past Perfect Subjunctive',
   'presentpersonalinfinitive': 'Present Personal Infinitive',
   'personalinfinitiveperfect': 'Personal Infinitive Perfect'
+};
 
+const TENSE_TRANSLATION = {
+  'pastparticiple': '',
+  'pastparticiplemasculinesingular': '',
+  'pastparticiplemasculineplural': '',
+  'pastparticiplefemininesingular': '',
+  'pastparticiplefeminineplural': '',
+  'futureperfect': 'Will Have',
+  'presentperfect': 'Have/Has Been',
+  'pastperfectcompound': '',
+  'pastconditional': '',
+  'presentsubjunctive': '',
+  'futuresubjunctive': '',
+  'futureperfectsubjunctive': '',
+  'imperfectsubjunctive': 'Were To',
+  'presentperfectsubjunctive': '',
+  'pastperfectsubjunctive': '',
+  'presentpersonalinfinitive': '',
+  'personalinfinitiveperfect': '',
+  'imperative': 'Command!'
 };
 class Results extends Component {
   constructor(props) {
@@ -50,41 +70,40 @@ class Results extends Component {
   }
 
   render() {
-    const conjs = _.map(this.state.data, ({singular, plural, def }, tense) => {
+    const conjs = _.map(this.state.data, ({ singular, plural, def }, tense) => {
       const snakeCaseTense = tense ? tense[0].toUpperCase().concat(tense.substring(1, tense.length)) : '';
-      if (def !== undefined && def !== null) {
-        console.log('def', def);
-        return( 
-          <div class='text-field'>
-            <h1>{TENSE_NAME[tense] || snakeCaseTense}</h1>
-            <div>{def.def}</div>
-            <div>
-              <br></br><br></br><br></br>
-            </div>
-          </div>
-        )
-      }
 
       if (singular !== undefined && singular !== null) {
-        return( 
-          <div class='container'>
+        return (
+          <Fragment>
             <h1>{TENSE_NAME[tense] || snakeCaseTense}</h1>
-            <div>
-              <div>{TENSE_MAP.singular.first} : {singular.first}</div>
-              <div>{TENSE_MAP.singular.third} : {singular.third}</div>
-              <div>{TENSE_MAP.plural.first} : {plural.first}</div>
-              <div>{TENSE_MAP.plural.third} : {plural.third}</div>
-              <div>
-              <br></br><br></br><br></br>
-            </div>
-            </div>
-          </div>
+            <table className='conjugation'>
+              <tr>
+                <td>{TENSE_MAP.singular.first}</td>
+                <td> {singular.first}</td>
+              </tr>
+              <tr>
+                <td>{TENSE_MAP.singular.third}</td>
+                <td> {singular.third}</td>
+              </tr>
+              <tr>
+                <td>{TENSE_MAP.plural.first}</td>
+                <td> {plural.first}</td>
+              </tr>
+              <tr>
+                <td>{TENSE_MAP.plural.third}</td>
+                <td> {plural.third}</td>
+              </tr>
+            </table>
+          </Fragment>
         )
       }
     })
     return (
       <div>
+        <div>
         <button onClick={this.searchAgain}>Search Again</button>
+        </div>
         {conjs}
       </div>);
   }
